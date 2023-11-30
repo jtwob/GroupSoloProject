@@ -7,4 +7,8 @@ router.get("/ping", (req, res) => {
   console.log("Ping");
 });
 
+router.post("/api/users", (req, res)=>{
+  
+})
+
 module.exports = router;
