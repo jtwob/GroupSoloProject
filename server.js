@@ -1,11 +1,29 @@
 const express = require("express");
 const path = require("path");
-const routes = require("./routes/routes.js");
+const userRoutes = require("./routes/userRoutes.js");
 const app = express();
+const mongoose = require("mongoose");
 const PORT = 8080;
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use("/", routes);
 
-app.listen(PORT, () => console.log(`listening at http://localhost:${PORT}`));
+mongoose.connect(
+    process.env.MONGODB_URI || "mongodb://localhost/bikes",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: true,
+    },
+    (err) => {
+      if (err) throw err;
+      console.log("connected to mongodb");
+    }
+  );
+
+  app.use("/api/users", userRoutes);
+
+  app.listen(PORT, () => {
+    console.log(`🌎 ==> API server now at http://localhost:${PORT}`);
+  });
