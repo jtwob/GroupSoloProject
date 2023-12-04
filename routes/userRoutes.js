@@ -1,14 +1,16 @@
 const router = require("express").Router();
+const {
+  newUser,
+  getOne,
+  getOneByEmail,
+  updateOne,
+  deleteOne,
+} = require("../controllers/userController");
 
-router.get("/ping", (req, res) => {
-  let response =
-    '<div><p>Ping</p><a href="http://localhost:3000">Back</a></div>';
-  res.send(response);
-  console.log("Ping");
-});
-
-router.post("/api/users", (req, res)=>{
-  
-})
+router.post("/", newUser);
+router.get("/:id", getOne);
+router.get("/email/:email", getOneByEmail);
+router.put("/:id", updateOne);
+router.delete("/:id", deleteOne);
 
 module.exports = router;
