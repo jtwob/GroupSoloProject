@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const userRoutes = require("./routes/userRoutes.js");
 const scoreRoutes = require("./routes/apiRoutes.js");
+require('dotenv').config()
 const app = express();
 const mongoose = require("mongoose");
 const PORT = 8080;
@@ -9,7 +10,7 @@ const PORT = 8080;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-mongoose.connect("mongodb://127.0.0.1/users");
+mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1/users");
 
 app.use("/api/users", userRoutes);
 app.use("/api/scores", scoreRoutes);
