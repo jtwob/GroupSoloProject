@@ -10,12 +10,16 @@ module.exports = {
         displayName: req.body.displayName,
       });
       const successSave = await userObj.save();
-      res.json({
+      res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+      res.header('Access-Control-Allow-Methods', 'POST');
+      res.header('Access-Control-Allow-Headers', 'Content-Type');
+      res.json({success: true, user: {
         email: successSave.email,
         displayName: successSave.displayName,
         _id: successSave._id,
-      });
+      }});
     } catch (err) {
+      res.header('status', 400);
       res.send(err);
     }
   },
@@ -28,11 +32,32 @@ module.exports = {
     }
   },
   getOneByEmail: async (req, res) => {
+    const { email, password } = req.body;
+    // console.log(email, password);
     try {
-      const oneUser = await User.findOne({ email: req.params.email });
-      res.json(oneUser);
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const passwordMatch = await bcrypt.compare(password, user.password);
+
+      if (!passwordMatch) {
+        return res.status(401).json({ error: 'Invalid password' });
+      }
+
+      res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
+      res.header('Access-Control-Allow-Methods', 'POST');
+      res.header('Access-Control-Allow-Headers', 'Content-Type');
+      res.json({ success: true, user: {
+        displayName: user.displayName,
+        id: user._id
+      } });
+
     } catch (err) {
-      res.send(err);
+      console.error('Error:', err);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   },
   updateOne: async (req, res) => {

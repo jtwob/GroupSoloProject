@@ -8,21 +8,14 @@ import Signup from "./components/pages/Signup";
 import Admin from "./components/pages/Admin";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
+import { UserProvider } from './UserContext';
 
 
 function App() {
-  
-  const UserContext = React.createContext({
-    name: 'Guest',
-    id: null,
-  });
-  
-  const {signedInUser} = this.props;
-
   return (
-    <UserContext.Provider value={signedInUser}>
+
       <Router>
-        <div>
+        <UserProvider>
           <NavTabs />
           <Routes>
             <Route exact path="/" element={<Home />}></Route>
@@ -31,9 +24,8 @@ function App() {
             <Route exact path="/signup" element={<Signup />}></Route>
             <Route exact path="/admin" element={<Admin />}></Route>
           </Routes>
-        </div>
+        </UserProvider>
       </Router>
-    </UserContext.Provider>
   );
 }
 

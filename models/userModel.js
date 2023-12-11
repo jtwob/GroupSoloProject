@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
-const Score = require("./scoreModel");
+const Post = require("./postModel");
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -22,13 +22,13 @@ const userSchema = new mongoose.Schema({
 
 userSchema.post("findOneAndDelete", async (user) => {
   try {
-    await Score.deleteMany({ ownerId: user._id });
+    await Post.deleteMany({ ownerId: user._id });
   } catch (err) {
     console.log(err);
   }
 });
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema);
 
 User.prototype.validPassword = function (password) {
   return bcrypt.compareSync(password, this.password);
