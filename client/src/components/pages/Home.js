@@ -6,7 +6,7 @@ import axios from 'axios';
 function Home() {
   const { userData } = useUser();
   const [postData, setPostData] = useState({
-    ownerId: userData.id,
+    ownerId: userData? userData.id : '',
     brand: '',
     rating: '',
     description: ''
@@ -61,7 +61,7 @@ function Home() {
     <div>
       <h1>Welcome, {userData ? userData.displayName : 'Guest'}</h1>
       {userData ? <div>
-      <h1>Create a New Post</h1>
+      <h1>Create a New Review</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Brand:
@@ -103,7 +103,7 @@ function Home() {
         <ul>
           {postsList.map((post) => (
             <li key={post.id}>
-              <strong>{post.brand}</strong> - Rating: {post.rating} - {post.description}
+              <strong>{post.brand}</strong> - Rating: {post.rating} - {post.description} - Author: {post.ownerId}
             </li>
           ))}
         </ul>
