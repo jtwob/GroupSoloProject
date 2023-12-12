@@ -44,16 +44,6 @@ function NavTabs() {
           Signup
         </Link>
       </li>
-      <li>
-        <Link
-          to="/Admin"
-          className={
-            location.pathname === "/Admin" ? "nav-link active" : "nav-link"
-          }
-        >
-          Admin
-        </Link>
-      </li>
     </ul>
   );
 }

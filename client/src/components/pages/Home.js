@@ -39,7 +39,6 @@ function Home() {
     e.preventDefault();
 
     try {
-      // TODO: Validate input before making the request
 
       await axios.post('http://localhost:8080/api/posts/', postData);
 
